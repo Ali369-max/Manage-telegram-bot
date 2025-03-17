@@ -1,26 +1,23 @@
-from telegram import Update
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
-import os
+from telegram.ext import Application
+   from flask import Flask
+   from threading import Thread
+   import os
 
-# الحصول على التوكن من متغيرات البيئة
-BOT_TOKEN = os.environ.get("BOT_TOKEN")
+   BOT_TOKEN = os.environ.get("BOT_TOKEN")
+   app = Flask(__name__)
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("مرحبًا! أنا بوتك 🚀")
+   @app.route('/')
+   def home():
+       return "Bot is running!"
 
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_text = update.message.text
-    await update.message.reply_text(f"لقد أرسلت: {user_text}")
+   def run_flask():
+       app.run(host='0.0.0.0', port=8000)
 
-def main():
-    app = Application.builder().token(BOT_TOKEN).build()
-    
-    # إضافة الأوامر
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT, echo))
-    
-    # بدء البوت
-    app.run_polling()
+   def start_bot():
+       bot_app = Application.builder().token(BOT_TOKEN).build()
+       # أضف ال handlers هنا (مثل CommandHandler)
+       bot_app.run_polling()
 
-if __name__ == "__main__":
-    main()
+   if __name__ == "__main__":
+       Thread(target=run_flask).start()  # تشغيل خادم Flask في خيط منفصل
+       start_bot()  # تشغيل البوت
