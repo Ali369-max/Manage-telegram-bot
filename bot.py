@@ -19,5 +19,5 @@ def start_bot():
     bot_app.run_polling()
 
 if __name__ == "__main__":
-    Thread(target=run_flask).start()  # تشغيل خادم Flask في خيط منفصل
-    start_bot()  # تشغيل البوت
+    Thread(target=run_flask).start()
+    start_bot()
