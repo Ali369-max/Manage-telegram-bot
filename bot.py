@@ -21,3 +21,11 @@ def start_bot():
 if __name__ == "__main__":
     Thread(target=run_flask).start()
     start_bot()
+    
+if __name__ == "__main__":
+    # احذف هذين السطرين إذا كنت تستخدم Gunicorn:
+    # Thread(target=run_flask).start()
+    # start_bot()
+    
+    # أضف هذا السطر بدلًا منهما:
+    app.run(host='0.0.0.0', port=8000)
